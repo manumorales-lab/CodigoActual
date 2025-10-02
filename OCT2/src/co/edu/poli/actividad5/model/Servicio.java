@@ -1,83 +1,50 @@
 package co.edu.poli.actividad5.model;
 
-public class Servicio extends ActividadTuristica {
+import java.io.Serializable;
+
+public class Servicio extends ActividadTuristica implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String idServicio;
     private String transporte;
     private String alojamiento;
 
-    /**
-     * Constructor por defecto
-     */
-    public Servicio() {
-    }
+    public Servicio() {}
 
-    /**
-    * Constructor con parámetros
-    */
     public Servicio(String idServicio, String transporte, String alojamiento) {
-    super();
-    this.idServicio = idServicio;
-    this.transporte = transporte;
-    this.alojamiento = alojamiento;
-    
+        super();
+        this.idServicio = idServicio;
+        this.transporte = transporte;
+        this.alojamiento = alojamiento;
     }
 
+    public String getIdServicio() { return idServicio; }
+    public void setIdServicio(String idServicio) { this.idServicio = idServicio; }
+    public String getTransporte() { return transporte; }
+    public void setTransporte(String transporte) { this.transporte = transporte; }
+    public String getAlojamiento() { return alojamiento; }
+    public void setAlojamiento(String alojamiento) { this.alojamiento = alojamiento; }
 
-    // Getters y Setters
-    public String getIdServicio() {
-    return idServicio;
-    }
-
-
-    public void setIdServicio(String idServicio) {
-    this.idServicio = idServicio;
-    }
-
-
-    public String getTransporte() {
-    return transporte;
-    }
-
-
-    public void setTransporte(String transporte) {
-    this.transporte = transporte;
-    }
-
-
-    public String getAlojamiento() {
-    return alojamiento;
-    }
-
-
-    public void setAlojamiento(String alojamiento) {
-    this.alojamiento = alojamiento;
-    }
-   
-
-    // Métodos de negocio
     protected int calcularCosto() {
-    return getPrecio(); // usa el precio heredado
+        return getPrecio();
     }
-
 
     protected int calcularCosto(int descuento) {
-    return getPrecio() - descuento;
+        return getPrecio() - descuento;
     }
-
 
     @Override
     public String toString() {
-    return "Servicio [idServicio=" + idServicio +
-    ", transporte=" + transporte +
-    ", alojamiento=" + alojamiento +
-    ", costo=" + calcularCosto() +
-    ", tiempo=" + getTiempo() +
-    ", clima=" + getClima() +
-    ", idActividad=" + getIdActividad() +
-    ", precio=" + getPrecio() +
-    ", tipo=" + getTipo() +
-    ", anioActividad=" + getAnioActividad() + "]";
+        return "Servicio [idServicio=" + idServicio +
+                ", transporte=" + transporte +
+                ", alojamiento=" + alojamiento +
+                ", costo=" + calcularCosto() +
+                ", lugar=" + getLugar() +
+                ", tiempo=" + getTiempo() +
+                ", clima=" + getClima() +
+                ", idActividad=" + getIdActividad() +
+                ", precio=" + getPrecio() +
+                ", tipo=" + getTipo() +
+                ", anioActividad=" + getAnioActividad() + "]";
     }
-	}
-    
+}

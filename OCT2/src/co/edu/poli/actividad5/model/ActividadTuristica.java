@@ -1,15 +1,19 @@
 package co.edu.poli.actividad5.model;
 
+import java.io.Serializable;
+
 /**
- * Representa una actividad turÃ­stica en un destino.
+ * Representa una actividad turística en un destino.
  */
-public class ActividadTuristica {
+public class ActividadTuristica implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String lugar;
     private String tiempo;
     private String clima;
     private String idActividad;
-    private int precio; 
+    private int precio;
     private String tipo;
     private int anioActividad;
 
@@ -17,83 +21,84 @@ public class ActividadTuristica {
     public ActividadTuristica() {
     }
 
- // Getters y Setters
-    public void setLugar(String lugar) {
-    this.lugar = lugar;
+    // Constructor con parámetros
+    public ActividadTuristica(String lugar, String tiempo, String clima, String idActividad,
+                              int precio, String tipo, int anioActividad) {
+        this.lugar = lugar;
+        this.tiempo = tiempo;
+        this.clima = clima;
+        this.idActividad = idActividad;
+        this.precio = precio;
+        this.tipo = tipo;
+        this.anioActividad = anioActividad;
     }
 
+    // Getters y Setters
+    public String getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
+    }
 
     public String getTiempo() {
-    return tiempo;
+        return tiempo;
     }
-
 
     public void setTiempo(String tiempo) {
-    this.tiempo = tiempo;
+        this.tiempo = tiempo;
     }
-
 
     public String getClima() {
-    return clima;
+        return clima;
     }
-
 
     public void setClima(String clima) {
-    this.clima = clima;
+        this.clima = clima;
     }
-
 
     public String getIdActividad() {
-    return idActividad;
+        return idActividad;
     }
-
 
     public void setIdActividad(String idActividad) {
-    this.idActividad = idActividad;
+        this.idActividad = idActividad;
     }
-
 
     public int getPrecio() {
-    return precio;
+        return precio;
     }
-
 
     public void setPrecio(int precio) {
-    // Evitar precios negativos
-    if (precio >= 0) {
-    this.precio = precio;
+        if (precio >= 0) {
+            this.precio = precio;
+        }
     }
-    }
-
 
     public String getTipo() {
-    return tipo;
+        return tipo;
     }
-
 
     public void setTipo(String tipo) {
-    this.tipo = tipo;
+        this.tipo = tipo;
     }
-
 
     public int getAnioActividad() {
-    return anioActividad;
+        return anioActividad;
     }
-
 
     public void setAnioActividad(int anioActividad) {
-    // Validar año positivo
-    if (anioActividad > 0) {
-    this.anioActividad = anioActividad;
+        if (anioActividad > 0) {
+            this.anioActividad = anioActividad;
+        }
     }
-    }
-
 
     @Override
     public String toString() {
-    return "ActividadTuristica [lugar=" + lugar + ", tiempo=" + tiempo +
-    ", clima=" + clima + ", idActividad=" + idActividad +
-    ", precio=" + precio + ", tipo=" + tipo +
-    ", anioActividad=" + anioActividad + "]";
-     }
+        return "ActividadTuristica [lugar=" + lugar + ", tiempo=" + tiempo +
+                ", clima=" + clima + ", idActividad=" + idActividad +
+                ", precio=" + precio + ", tipo=" + tipo +
+                ", anioActividad=" + anioActividad + "]";
     }
+}

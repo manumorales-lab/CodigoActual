@@ -1,69 +1,154 @@
 package co.edu.poli.actividadd5.vista;
 
+import java.util.Scanner;
 
-import co.edu.poli.actividad5.model.*;
+import co.edu.poli.actividad5.model.ActividadTuristica;
 import co.edu.poli.actividad5.servicios.*;
 
-/**
- * 
- */
 public class Principal {
 
+    private static ImplementacionOperacionCRUD crud = new ImplementacionOperacionCRUD();
+    private static Scanner sc = new Scanner(System.in);
 
-public static void main(String[] args) {
-	// Crear un Cliente
-	Cliente cliente1 = new Cliente("C001", 25, "Juan Pérez", true);
-	System.out.println(cliente1);
+    public static void main(String[] args) {
+        ActividadTuristica[] actividades = serydes.leerDeArchivo();
+        // Cargamos lo leído en el CRUD
+        for (ActividadTuristica a : actividades) {
+            if (a != null) {
+                crud.create(a);
+            }
+        }
 
+        int opcion;
+        do {
+            System.out.println("\n===== MENÚ PRINCIPAL =====");
+            System.out.println("1. Crear Actividad Turística");
+            System.out.println("2. Listar todas las Actividades");
+            System.out.println("3. Listar una Actividad por ID");
+            System.out.println("4. Guardar en Archivo");
+            System.out.println("5. Cargar desde Archivo");
+            System.out.println("6. Modificar Actividad");
+            System.out.println("7. Eliminar Actividad");
+            System.out.println("8. Salir");
+            System.out.print("Seleccione una opción: ");
+            opcion = sc.nextInt();
+            sc.nextLine(); // limpiar buffer
 
-	// Crear un Destino
-	Destino destino1 = new Destino("Cartagena", "Playa Blanca", "Bolívar", "Caribeña", "D001");
-	System.out.println(destino1);
+            switch (opcion) {
+                case 1 -> crearActividad();
+                case 2 -> listarTodas();
+                case 3 -> listarUna();
+                case 4 -> guardarArchivo();
+                case 5 -> cargarArchivo();
+                case 6 -> modificarActividad();
+                case 7 -> eliminarActividad();
+                case 8 -> System.out.println("Saliendo del sistema...");
+                default -> System.out.println("Opción inválida, intente de nuevo.");
+            }
+        } while (opcion != 8);
+    }
 
+    private static void crearActividad() {
+        if (crud.listAll().length >= 10) {
+            System.out.println(" No se pueden guardar más de 10 actividades.");
+            return;
+        }
 
-	// Crear una Actividad
-	Actividad actividad1 = new Actividad("Deporte acuático", 100000, 2, 10, "2025-12-10", "A001");
-	System.out.println(actividad1);
+        System.out.print("Ingrese ID: ");
+        String id = sc.nextLine();
+        System.out.print("Ingrese lugar: ");
+        String lugar = sc.nextLine();
+        System.out.print("Ingrese tiempo: ");
+        String tiempo = sc.nextLine();
+        System.out.print("Ingrese clima: ");
+        String clima = sc.nextLine();
+        System.out.print("Ingrese precio: ");
+        int precio = sc.nextInt();
+        System.out.print("Ingrese año: ");
+        int anio = sc.nextInt();
+        sc.nextLine(); // limpiar buffer
+        System.out.print("Ingrese tipo: ");
+        String tipo = sc.nextLine();
 
+        ActividadTuristica act = new ActividadTuristica(lugar, tiempo, clima, id, precio, tipo, anio);
+        if (crud.create(act)) {
+            System.out.println("Actividad creada exitosamente.");
+        } else {
+            System.out.println("No se pudo crear la actividad (ID duplicado o espacio insuficiente).");
+        }
+    }
 
-	// Crear una Actividad Turística
-	/*
-	ActividadTuristica actTuristica1 = new ActividadTuristica(
-	"Santa Marta", "3 horas", "Soleado", "AT001",
-	80000, "Excursión", 2025);
-	System.out.println(actTuristica1);
-*/
+    private static void listarTodas() {
+        System.out.println("\n=== LISTADO DE ACTIVIDADES ===");
+        for (ActividadTuristica a : crud.listAll()) {
+            if (a != null) {
+                System.out.println(a);
+            }
+        }
+    }
 
-	// Crear un Alojamiento
-	Alojamiento hotel1 = new Alojamiento(300000, 2, "Cartagena Centro", "H001", "Hotel Mar Azul", 3);
-	System.out.println(hotel1);
+    private static void listarUna() {
+        System.out.print("Ingrese ID de la actividad: ");
+        String id = sc.nextLine();
+        ActividadTuristica act = crud.read(id);
+        if (act != null) {
+            System.out.println("Actividad encontrada: " + act);
+        } else {
+            System.out.println("Actividad no encontrada.");
+        }
+    }
 
+    private static void guardarArchivo() {
+        serydes.guardarEnArchivo(crud.listAll());
+    }
 
-	// Crear un Transporte
-	Transporte bus1 = new Transporte("T001", 40, 50000, "Bus turístico", 300);
-	System.out.println(bus1);
+    private static void cargarArchivo() {
+        ActividadTuristica[] actividades = serydes.leerDeArchivo();
+        for (ActividadTuristica a : actividades) {
+            if (a != null) {
+                crud.create(a);
+            }
+        }
+    }
 
+    private static void modificarActividad() {
+        System.out.print("Ingrese ID de la actividad a modificar: ");
+        String id = sc.nextLine();
+        ActividadTuristica existente = crud.read(id);
+        if (existente == null) {
+            System.out.println("Actividad no encontrada.");
+            return;
+        }
 
-	// Crear un Transporte Marítimo
-	TransporteMaritimo barco1 = new TransporteMaritimo(500, "Puerto de Barranquilla");
-	System.out.println(barco1);
-	// Crear un Servicio (que hereda de ActividadTuristica)
-	Servicio servicio1 = new Servicio("S001", "Bus", "Hotel Mar Azul");
-	servicio1.setLugar("Cartagena");
-	servicio1.setTiempo("4 horas");
-	servicio1.setClima("Soleado");
-	servicio1.setIdActividad("SV001");
-	servicio1.setPrecio(150000);
-	servicio1.setTipo("Tour completo");
-	servicio1.setAnioActividad(2025);
-	System.out.println(servicio1);
+        System.out.print("Nuevo lugar: ");
+        String lugar = sc.nextLine();
+        System.out.print("Nuevo tiempo: ");
+        String tiempo = sc.nextLine();
+        System.out.print("Nuevo clima: ");
+        String clima = sc.nextLine();
+        System.out.print("Nuevo precio: ");
+        int precio = sc.nextInt();
+        System.out.print("Nuevo año: ");
+        int anio = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Nuevo tipo: ");
+        String tipo = sc.nextLine();
 
+        ActividadTuristica nueva = new ActividadTuristica(lugar, tiempo, clima, id, precio, tipo, anio);
+        if (crud.update(id, nueva)) {
+            System.out.println("Actividad modificada correctamente.");
+        } else {
+            System.out.println("Error al modificar la actividad.");
+        }
+    }
 
-	// Crear una Calificación
-	Calificacion calificacion1 = new Calificacion(5, "CAL001", "Excelente experiencia, muy recomendado.");
-	System.out.println(calificacion1);
-
-
-	System.out.println("\n=== Fin de la demostración ===");
-	}
-	}
+    private static void eliminarActividad() {
+        System.out.print("Ingrese ID de la actividad a eliminar: ");
+        String id = sc.nextLine();
+        if (crud.delete(id)) {
+            System.out.println("Actividad eliminada.");
+        } else {
+            System.out.println("No se pudo eliminar (ID no encontrado).");
+        }
+    }
+}
