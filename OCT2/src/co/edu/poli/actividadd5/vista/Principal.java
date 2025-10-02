@@ -49,7 +49,7 @@ public class Principal {
     }
 
     private static void crearActividad() {
-        if (crud.listAll().length >= 10) {
+        if (crud.listAll().length >= 100) {
             System.out.println(" No se pueden guardar más de 10 actividades.");
             return;
         }
@@ -62,7 +62,7 @@ public class Principal {
         String tiempo = sc.nextLine();
         System.out.print("Ingrese clima: ");
         String clima = sc.nextLine();
-        System.out.print("Ingrese precio: ");
+        System.out.print("Ingrese precio (en dolares): ");
         int precio = sc.nextInt();
         System.out.print("Ingrese año: ");
         int anio = sc.nextInt();

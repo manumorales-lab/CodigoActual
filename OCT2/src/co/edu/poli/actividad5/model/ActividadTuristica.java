@@ -98,7 +98,7 @@ public class ActividadTuristica implements Serializable {
     public String toString() {
         return "ActividadTuristica [lugar=" + lugar + ", tiempo=" + tiempo +
                 ", clima=" + clima + ", idActividad=" + idActividad +
-                ", precio=" + precio + ", tipo=" + tipo +
+                ", precio(en dolares y un numero cerrado)=" + precio + ", tipo=" + tipo +
                 ", anioActividad=" + anioActividad + "]";
     }
 }

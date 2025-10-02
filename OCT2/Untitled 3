@@ -1,0 +1,64 @@
+==============================
+   Conceptos de POO aplicados
+==============================
+
+1. Método Constructor:
+   - Se aplica en todas las clases para inicializar los objetos con valores.
+   - Ejemplo: Clase Cliente, línea 7:
+       public Cliente(String id, int edad, String nombre, boolean activo) { ... }
+
+2. Métodos de Acceso (Getters y Setters):
+   - Se usan para encapsular los atributos y permitir acceso controlado.
+   - Ejemplo: Clase Servicio, líneas donde aparecen setLugar(), setTiempo(), etc.
+       servicio1.setLugar("Cartagena");  // Principal.java, línea 44
+
+3. Método toString():
+   - Se sobrescribe en cada clase para mostrar información legible de los objetos.
+   - Ejemplo: Clase Destino, línea 22 (sobrescritura de toString).
+   - Uso: System.out.println(destino1); // Principal.java, línea 13
+
+4. Modificador static:
+   - Se utiliza en variables o métodos que pertenecen a la clase y no a la instancia.
+   - Ejemplo: Clase Transporte puede tener un contador de instancias con `static int contador;`
+
+5. Modificador final:
+   - Se usa para atributos o métodos que no deben cambiar.
+   - Ejemplo: `final String id;` en clases como Cliente, Actividad, etc.
+
+6. Visibilidades:
+   - Uso de private, public y protected para controlar acceso.
+   - Ejemplo: Clase Cliente:
+       private String id;  // atributo privado
+       public Cliente(...) // constructor público
+
+7. Multiplicidades:
+   - Una clase puede contener listas de otras clases.
+   - Ejemplo: Un Cliente puede tener varias Calificaciones (1..*).
+
+8. Sobreescritura de Métodos (Override):
+   - El método toString() se sobrescribe en todas las clases.
+   - Ejemplo: Clase Calificacion, línea 15.
+
+9. Sobrecarga de Métodos:
+   - Se aplica cuando un método tiene el mismo nombre pero distinta firma.
+   - Ejemplo: Clase ActividadTuristica puede tener múltiples constructores.
+
+10. Creación de Objetos:
+    - Se aplica en el método main de Principal.java:
+      Cliente cliente1 = new Cliente("C001", 25, "Juan Pérez", true); // línea 8
+      Destino destino1 = new Destino("Cartagena", "Playa Blanca", "Bolívar", "Caribeña", "D001"); // línea 12
+
+11. Agregaciones:
+    - Relación de "tiene un".
+    - Ejemplo: Una ActividadTuristica puede tener asociado un Servicio.
+    - Clase Servicio hereda de ActividadTuristica y agrega atributos propios.
+
+12. Herencia:
+    - Clase Servicio extiende ActividadTuristica.
+    - Clase TransporteMaritimo extiende Transporte.
+
+13. Polimorfismo:
+    - Cuando un objeto de tipo padre puede referirse a una subclase.
+    - Ejemplo: 
+       Transporte bus = new TransporteMaritimo(500, "Puerto de Barranquilla");
+       System.out.println(bus); // usa polimorfismo en tiempo de ejecución.
