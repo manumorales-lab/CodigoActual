@@ -4,7 +4,9 @@ package co.edu.poli.actividadd5.vista;
 import co.edu.poli.actividad5.model.*;
 import co.edu.poli.actividad5.servicios.*;
 
-
+/**
+ * 
+ */
 public class Principal {
 
 
