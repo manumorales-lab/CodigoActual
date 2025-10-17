@@ -1,6 +1,10 @@
 package co.edu.poli.parcial.model;
 
-public class Ropa {
+import java.io.Serializable;
+
+public class Ropa implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private String talla;
     
     public Ropa(int codigo, String nombre, double precio, int stock, Proveedor proveedor, String talla) {
@@ -16,7 +20,7 @@ public class Ropa {
     }
     
     public String getTipo() {
-        return "Ropa";
+        return "ROPA";
     }
     
     @Override

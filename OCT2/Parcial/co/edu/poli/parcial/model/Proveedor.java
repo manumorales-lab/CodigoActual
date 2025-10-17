@@ -1,6 +1,10 @@
 package co.edu.poli.parcial.model;
 
-public class Proveedor {
+import java.io.Serializable;
+
+public class Proveedor implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private int id;
     private String paisOrigen;
     private String nombre;

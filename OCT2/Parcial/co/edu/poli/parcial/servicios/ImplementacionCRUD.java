@@ -15,18 +15,26 @@ public class ImplementacionCRUD implements OperacionCRUD {
     
     @Override
     public boolean crearProducto(Producto producto) {
-        if (contador < capacidad) {
-            productos[contador] = producto;
-            contador++;
-            return true;
+        if (contador >= capacidad) {
+            System.out.println("Error: Capacidad máxima alcanzada");
+            return false;
         }
-        return false;
+        
+        if (leerProducto(producto.getCodigo()) != null) {
+            System.out.println("Error: Ya existe producto con código " + producto.getCodigo());
+            return false;
+        }
+        
+        productos[contador] = producto;
+        contador++;
+        System.out.println("Producto creado exitosamente");
+        return true;
     }
     
     @Override
     public Producto leerProducto(int codigo) {
         for (int i = 0; i < contador; i++) {
-            if (productos[i].getCodigo() == codigo) {
+            if (productos[i] != null && productos[i].getCodigo() == codigo) {
                 return productos[i];
             }
         }
@@ -35,9 +43,8 @@ public class ImplementacionCRUD implements OperacionCRUD {
     
     @Override
     public Producto leerTodos(Producto producto) {
-        // Nota: Este método parece incorrecto en el diagrama, se implementa básico
         if (contador > 0) {
-            return productos[0]; // Retorna el primero como ejemplo
+            return productos[0];
         }
         return null;
     }
@@ -47,9 +54,11 @@ public class ImplementacionCRUD implements OperacionCRUD {
         for (int i = 0; i < contador; i++) {
             if (productos[i].getCodigo() == producto.getCodigo()) {
                 productos[i] = producto;
+                System.out.println("Producto actualizado exitosamente");
                 return true;
             }
         }
+        System.out.println("Error: Producto no encontrado");
         return false;
     }
     
@@ -62,18 +71,25 @@ public class ImplementacionCRUD implements OperacionCRUD {
                 }
                 productos[contador - 1] = null;
                 contador--;
+                System.out.println("Producto eliminado exitosamente");
                 return true;
             }
         }
+        System.out.println("Error: Producto no encontrado");
         return false;
     }
     
     @Override
     public boolean serializarProducto(String archive) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archive))) {
-            oos.writeObject(productos);
+            oos.writeInt(contador);
+            for (int i = 0; i < contador; i++) {
+                oos.writeObject(productos[i]);
+            }
+            System.out.println("Productos serializados en: " + archive);
             return true;
         } catch (IOException e) {
+            System.out.println("Error al serializar: " + e.getMessage());
             return false;
         }
     }
@@ -81,14 +97,30 @@ public class ImplementacionCRUD implements OperacionCRUD {
     @Override
     public Producto deserializarProducto(String archive) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archive))) {
-            Producto[] productosCargados = (Producto[]) ois.readObject();
-            if (productosCargados != null && productosCargados.length > 0) {
-                return productosCargados[0]; // Retorna el primero
+            int cantidad = ois.readInt();
+            Producto[] productosCargados = new Producto[cantidad];
+            
+            for (int i = 0; i < cantidad; i++) {
+                productosCargados[i] = (Producto) ois.readObject();
             }
+            
+            this.productos = new Producto[capacidad];
+            this.contador = 0;
+            
+            for (Producto p : productosCargados) {
+                if (contador < capacidad && p != null) {
+                    productos[contador] = p;
+                    contador++;
+                }
+            }
+            
+            System.out.println("Productos cargados desde: " + archive);
+            return (contador > 0) ? productos[0] : null;
+            
         } catch (IOException | ClassNotFoundException e) {
-            // Manejo de error
+            System.out.println("Error al deserializar: " + e.getMessage());
+            return null;
         }
-        return null;
     }
     
     @Override
@@ -108,9 +140,30 @@ public class ImplementacionCRUD implements OperacionCRUD {
     public boolean existeProducto(int codigo) {
         return leerProducto(codigo) != null;
     }
-
-	public Producto obtenerProductoPorIndice(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    
+    public Producto obtenerProductoPorIndice(int indice) {
+        if (indice >= 0 && indice < contador) {
+            return productos[indice];
+        }
+        return null;
+    }
+    
+    public void mostrarEstadisticas() {
+        int electronicos = 0;
+        int ropa = 0;
+        
+        for (int i = 0; i < contador; i++) {
+            if (productos[i].getElectronico() != null) {
+                electronicos++;
+            } else if (productos[i].getRopa() != null) {
+                ropa++;
+            }
+        }
+        
+        System.out.println("=== ESTADISTICAS ===");
+        System.out.println("Electrónicos: " + electronicos);
+        System.out.println("Ropa: " + ropa);
+        System.out.println("Total: " + contador);
+        System.out.println("Capacidad: " + capacidad);
+    }
 }

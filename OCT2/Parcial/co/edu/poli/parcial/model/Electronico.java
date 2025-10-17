@@ -1,10 +1,13 @@
 package co.edu.poli.parcial.model;
 
-public class Electronico {
+import java.io.Serializable;
+
+public class Electronico implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private int garantiaMeses;
     
     public Electronico(int codigo, String nombre, double precio, Proveedor proveedor, int garantiaMeses) {
-        // Nota: Este constructor no coincide con Producto, se mantiene como en el diagrama
         this.garantiaMeses = garantiaMeses;
     }
     
@@ -17,7 +20,7 @@ public class Electronico {
     }
     
     public String getTipo() {
-        return "Electronico";
+        return "ELECTRONICO";
     }
     
     @Override

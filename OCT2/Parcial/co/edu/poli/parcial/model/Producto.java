@@ -1,6 +1,10 @@
 package co.edu.poli.parcial.model;
 
-public class Producto {
+import java.io.Serializable;
+
+public class Producto implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private int codigo;
     private String nombre;
     private double precio;
@@ -75,11 +79,11 @@ public class Producto {
     
     public String getTipo() {
         if (electronico != null) {
-            return "Electronico";
+            return "ELECTRONICO";
         } else if (ropa != null) {
-            return "Ropa";
+            return "ROPA";
         }
-        return "Producto";
+        return "GENERICO";
     }
     
     @Override
