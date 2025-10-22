@@ -23,7 +23,7 @@ public class Main {
         proveedores = new Proveedor[]{
             new Proveedor(1, "China", "TecnoGlobal"),
             new Proveedor(2, "Italia", "ModaStyle"),
-            new Proveedor(3, "Japón", "TechWorld"),
+            new Proveedor(3, "Japon", "TechWorld"),
             new Proveedor(4, "Colombia", "NataStyle")
         };
     }
